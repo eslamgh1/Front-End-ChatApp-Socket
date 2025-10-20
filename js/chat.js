@@ -74,7 +74,7 @@ clintIo.on('successMessage', (data) => {
 
     div.className = 'me text-end p-2';
     div.dir = 'rtl';
-    const imagePath = globalProfile.profilePicture ? `${baseURL}/upload/${globalProfile.profilePicture}` : avatar;
+    const imagePath = globalProfile.profilePicture ? `${baseURL}/users/getfile/${globalProfile.profilePicture}` : avatar;
     div.innerHTML = `
     <img class="chatImage" src="${imagePath}" alt="" srcset="">
     <span class="mx-2">${content}</span>
@@ -93,7 +93,7 @@ clintIo.on("newMessage", (data) => {
 
     let imagePath = avatar;
     if (from?.profilePicture) {
-        imagePath = `${baseURL}/users/getfile/${from.profilePicture}`
+        imagePath = `${baseURL}/users/getfile/${from.profilePicture}` // upload
     }
     const onclickAttr = document.getElementById("sendMessage").getAttribute("onclick")
     const [base, currentOpenedChat] = onclickAttr?.match(/sendMessage\('([^']+)'/) || [];
@@ -187,11 +187,11 @@ function displayChatUser(userId) {
         console.log({ chat });
         if (chat) {
             if (chat.participants[0]._id.toString() == globalProfile._id.toString()) {
-                meImage = chat.participants[0].profileImage ? `${baseURL}/upload/${chat.participants[0].profileImage}` : avatar
-                friendImage = chat.participants[1].profileImage ? `${baseURL}/upload/${chat.participants[1].profileImage}` : avatar
+                meImage = chat.participants[0].profileImage ? `${baseURL}/users/getfile/${chat.participants[0].profileImage}` : avatar
+                friendImage = chat.participants[1].profileImage ? `${baseURL}/users/getfile/${chat.participants[1].profileImage}` : avatar
             } else {
-                meImage = chat.participants[1].profileImage ? `${baseURL}/upload/${chat.participants[1].profileImage}` : avatar
-                friendImage = chat.participants[0].profileImage ? `${baseURL}/upload/${chat.participants[0].profileImage}` : avatar
+                meImage = chat.participants[1].profileImage ? `${baseURL}/users/getfile/${chat.participants[1].profileImage}` : avatar
+                friendImage = chat.participants[0].profileImage ? `${baseURL}/users/getfile/${chat.participants[0].profileImage}` : avatar
             }
 
             showData(userId, chat)
@@ -237,7 +237,7 @@ function showGroupData(sendTo, chat) {
                 const div = document.createElement('div');
                 div.className = 'myFriend p-2';
                 div.dir = 'ltr';
-                const friendImage = message.createdBy.profilePicture ? `${baseURL}/upload/${message.createdBy.profilePicture}` : avatar
+                const friendImage = message.createdBy.profilePicture ? `${baseURL}/users/getfile/${message.createdBy.profilePicture}` : avatar
                 div.innerHTML = `
                 <img class="chatImage" src="${friendImage}" alt="" srcset="">
                 <span class="mx-2">${message.content}</span>
@@ -271,7 +271,7 @@ function displayGroupChat(groupId) {
         const { chat } = response.data?.data
         console.log({ chat });
         if (chat) {
-            meImage = globalProfile.profilePicture ? `${baseURL}/upload/${globalProfile.profilePicture}` : avatar
+            meImage = globalProfile.profilePicture ? `${baseURL}/users/getfile/${globalProfile.profilePicture}` : avatar
             showGroupData(groupId, chat)
         } else {
             showGroupData(groupId, 0)
@@ -313,7 +313,7 @@ function getUserData() {
         document.getElementById("userName").innerHTML = `${user.userName}`
         showUsersData(user.friends)
         console.log(user.friends)
-        // showGroupList(groups)
+        showGroupList(groups)
     }).catch(function (error) {
         console.log(error);
     });
@@ -347,8 +347,8 @@ function showGroupList(groups = []) {
     let cartonna = ``
     for (let i = 0; i < groups.length; i++) {
         let imagePath = avatar;
-        if (groups[i].group_image) {
-            imagePath = `${baseURL}/upload/${groups[i].group_image}`
+        if (groups[i].groupImage) {
+            imagePath = `${baseURL}/users/getfile/${groups[i].groupImage}`  // upload
         }
         cartonna += `
         <div onclick="displayGroupChat('${groups[i]._id}')" class="chatUser my-2">
