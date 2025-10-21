@@ -268,7 +268,8 @@ function displayGroupChat(groupId) {
         url: `${baseURL}/chat/group/${groupId}`,
         headers
     }).then(function (response) {
-        const { chat } = response.data?.data
+        console.log({ response });
+        const { chat } = response.data
         console.log({ chat });
         if (chat) {
             meImage = globalProfile.profilePicture ? `${baseURL}/users/getfile/${globalProfile.profilePicture}` : avatar
